@@ -4,11 +4,14 @@ import { useEffect } from 'react';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { useAuthStore } from '@/store/authStore';
 import PublicLayout from '@/layouts/PublicLayout';
+import DashboardLayout from '@/layouts/DashboardLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
-import Dashboard from '@/pages/Dashboard';
+import DashboardPage from '@/pages/DashboardPage';
+import CatalogPage from '@/pages/CatalogPage';
+import OnboardingPage from '@/pages/OnboardingPage';
 
 const queryClient = new QueryClient();
 
@@ -16,9 +19,7 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
     const { fetchMe, token } = useAuthStore();
 
     useEffect(() => {
-        if (token) {
-            fetchMe();
-        }
+        if (token) fetchMe();
     }, []);
 
     return <>{children}</>;
@@ -38,15 +39,18 @@ export default function App() {
                                 <Route path="/register" element={<Register />} />
                             </Route>
 
-                            {/* Protected routes */}
+                            {/* Protected routes with Dashboard Layout */}
                             <Route
-                                path="/dashboard"
                                 element={
                                     <ProtectedRoute>
-                                        <Dashboard />
+                                        <DashboardLayout />
                                     </ProtectedRoute>
                                 }
-                            />
+                            >
+                                <Route path="/dashboard" element={<DashboardPage />} />
+                                <Route path="/catalog" element={<CatalogPage />} />
+                                <Route path="/onboarding" element={<OnboardingPage />} />
+                            </Route>
                         </Routes>
                     </AuthInitializer>
                 </BrowserRouter>
