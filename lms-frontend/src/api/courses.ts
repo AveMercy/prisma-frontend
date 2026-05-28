@@ -8,6 +8,7 @@ export interface Course {
     level: 'beginner' | 'intermediate' | 'advanced';
     categoryId: number | null;
     category: { id: number; name: string } | null;
+    tags: { id: number; name: string; type: string }[];
     author: { fullName: string };
     _count: { modules: number };
     isPublished: boolean;
@@ -36,4 +37,14 @@ export const coursesApi = {
 
     getById: (id: number) =>
         apiClient.get<CourseDetail>(`/courses/${id}`),
+
+    create: (data: { title: string; description?: string; level?: string; categoryId?: number }) =>
+        apiClient.post('/courses', data),
+
+    delete: (id: number) =>
+        apiClient.delete(`/courses/${id}`),
+
+    enroll: (courseIds: number[]) =>
+        apiClient.post('/courses/enroll', { courseIds }),
 };
+

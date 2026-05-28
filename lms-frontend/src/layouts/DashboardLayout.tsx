@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     Sheet,
     SheetContent,
@@ -12,6 +12,7 @@ import { useTheme } from '@/components/ThemeProvider';
 import { useAuthStore } from '@/store/authStore';
 import {
     LayoutDashboard,
+    BookOpen,
     Compass,
     Settings,
     LogOut,
@@ -20,11 +21,29 @@ import {
     GraduationCap,
     Menu,
     ChevronLeft,
+    Users,
+    ClipboardList,
+    Code
 } from 'lucide-react';
 
-const navItems = [
-    { to: '/dashboard', icon: LayoutDashboard, label: 'Дашборд' },
+import Logo from "@/pages/Logo.tsx";
+
+const studentNavItems = [
+    { to: '/dashboard', icon: LayoutDashboard, label: 'Мои курсы' },
     { to: '/catalog', icon: Compass, label: 'Каталог курсов' },
+    { to: '/playground', icon: Code, label: 'Code Playground' },
+    { to: '/assignments', icon: ClipboardList, label: 'Задания' },
+    { to: '/my-group', icon: Users, label: 'Моя группа' },
+    { to: '/settings', icon: Settings, label: 'Настройки' },
+];
+
+const teacherNavItems = [
+    { to: '/dashboard', icon: LayoutDashboard, label: 'Дашборд' },
+    { to: '/teacher/courses', icon: BookOpen, label: 'Управление курсами' },
+    { to: '/assignments', icon: ClipboardList, label: 'Задания' },
+    { to: '/teacher/groups', icon: Users, label: 'Группы' },
+    { to: '/catalog', icon: Compass, label: 'Каталог' },
+    { to: '/playground', icon: Code, label: 'Code Playground' },
     { to: '/settings', icon: Settings, label: 'Настройки' },
 ];
 
@@ -34,6 +53,8 @@ export default function DashboardLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const [collapsed, setCollapsed] = useState(false);
+
+    const navItems = user?.role === 'teacher' ? teacherNavItems : studentNavItems;
 
     const handleLogout = () => {
         logout();
@@ -49,8 +70,7 @@ export default function DashboardLayout() {
     const SidebarContent = () => (
         <div className="flex h-full flex-col">
             <Link to="/dashboard" className="flex items-center gap-2 px-4 py-6 border-b">
-                <GraduationCap className="h-7 w-7 text-primary flex-shrink-0" />
-                {!collapsed && <span className="text-lg font-bold">CodeLearn</span>}
+                <Logo iconOnly={collapsed} />
             </Link>
 
             <nav className="flex-1 py-4 space-y-1 px-2">
@@ -86,7 +106,6 @@ export default function DashboardLayout() {
 
     return (
         <div className="flex h-screen overflow-hidden bg-background">
-            {/* Desktop Sidebar */}
             <aside
                 className={`hidden lg:flex flex-col border-r bg-card transition-all duration-300 ${
                     collapsed ? 'w-[72px]' : 'w-[240px]'
@@ -95,60 +114,59 @@ export default function DashboardLayout() {
                 <SidebarContent />
             </aside>
 
-            {/* Main area */}
             <div className="flex flex-1 flex-col overflow-hidden">
-                {/* Header */}
                 <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                     <div className="flex h-16 items-center justify-between px-4">
                         <div className="flex items-center gap-4">
-                            {/* Mobile menu */}
                             <Sheet>
                                 <SheetTrigger asChild className="lg:hidden">
                                     <Button variant="ghost" size="icon">
-                                        <Menu className="h-5 w-5" />
+                                        <Menu className="h-5 w-5"/>
                                     </Button>
                                 </SheetTrigger>
                                 <SheetContent side="left" className="w-[240px] p-0">
                                     <SheetClose asChild>
                                         <div>
-                                            <SidebarContent />
+                                            <SidebarContent/>
                                         </div>
                                     </SheetClose>
                                 </SheetContent>
                             </Sheet>
 
                             <h1 className="text-lg font-semibold hidden sm:block">
-                                {navItems.find((i) => i.to === location.pathname)?.label || 'CodeLearn'}
+                                {navItems.find((i) => i.to === location.pathname)?.label || 'Prisma'}
                             </h1>
                         </div>
 
                         <div className="flex items-center gap-3">
                             <Button variant="ghost" size="icon" onClick={toggleTheme}>
                                 {theme === 'light' ? (
-                                    <Moon className="h-5 w-5" />
+                                    <Moon className="h-5 w-5"/>
                                 ) : (
-                                    <Sun className="h-5 w-5" />
+                                    <Sun className="h-5 w-5"/>
                                 )}
                             </Button>
 
-                            <div className="flex items-center gap-2 pl-2 border-l">
+                            <Link to="/profile" className="flex items-center gap-2 pl-2 border-l hover:opacity-80 transition-opacity">
                                 <Avatar className="h-8 w-8">
+                                    <AvatarImage src={user?.avatarUrl ? `http://localhost:5000${user.avatarUrl}` : undefined} />
                                     <AvatarFallback className="text-xs">{initials}</AvatarFallback>
                                 </Avatar>
                                 <div className="hidden sm:block">
                                     <p className="text-sm font-medium">{user?.fullName}</p>
                                     <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
                                 </div>
-                                <Button variant="ghost" size="icon" onClick={handleLogout}>
-                                    <LogOut className="h-4 w-4" />
-                                </Button>
-                            </div>
+                            </Link>
+
+                            <Button variant="ghost" size="icon" onClick={handleLogout}>
+                                <LogOut className="h-4 w-4"/>
+                            </Button>
                         </div>
                     </div>
                 </header>
 
                 <main className="flex-1 overflow-y-auto">
-                    <Outlet />
+                    <Outlet/>
                 </main>
             </div>
         </div>

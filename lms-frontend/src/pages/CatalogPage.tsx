@@ -152,20 +152,36 @@ export default function CatalogPage() {
                             </p>
 
                             <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <BookOpen className="h-3 w-3" />
-                    {course._count.modules} модулей
-                </span>
+        <span className="flex items-center gap-1">
+            <BookOpen className="h-3 w-3" />
+            {course._count.modules} модулей
+        </span>
                                 <span className="flex items-center gap-1">
-                  <GraduationCap className="h-3 w-3" />
+            <GraduationCap className="h-3 w-3" />
                                     {course.author.fullName}
-                </span>
+        </span>
                             </div>
 
                             {course.category && (
                                 <Badge variant="outline" className="mt-3">
                                     {course.category.name}
                                 </Badge>
+                            )}
+
+                            {/* Теги */}
+                            {course.tags && course.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                    {course.tags.slice(0, 3).map((tag) => (
+                                        <Badge key={tag.id} variant="secondary" className="text-xs">
+                                            {tag.name}
+                                        </Badge>
+                                    ))}
+                                    {course.tags.length > 3 && (
+                                        <Badge variant="outline" className="text-xs">
+                                            +{course.tags.length - 3}
+                                        </Badge>
+                                    )}
+                                </div>
                             )}
                         </CardContent>
                     </Card>

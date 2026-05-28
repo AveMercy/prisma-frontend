@@ -35,7 +35,7 @@ export default function Login() {
             <Card className="w-full max-w-md">
                 <CardHeader className="text-center">
                     <GraduationCap className="mx-auto mb-4 h-12 w-12 text-primary" />
-                    <CardTitle className="text-2xl">Вход в CodeLearn</CardTitle>
+                    <CardTitle className="text-2xl">Вход в Prisma</CardTitle>
                     <CardDescription>
                         Войдите, чтобы продолжить обучение
                     </CardDescription>
