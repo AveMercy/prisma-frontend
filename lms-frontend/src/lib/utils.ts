@@ -7,8 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getImageUrl(path: string | null | undefined): string {
   if (!path) return '';
   if (path.startsWith('http') || path.startsWith('data:')) return path;
-  const base = import.meta.env.VITE_IMAGE_URL || 'http://81.26.187.22:5000';
-  return `${base}${path}`;
+  return path; // Vercel проксирует /uploads/ на бэкенд
 }
 
 export function getApiUrl(path: string): string {
