@@ -28,7 +28,7 @@ export default function Logo({ className = '', iconOnly = false }: LogoProps) {
                 >
                     {/* Четырехлучевая минималистичная звезда */}
                     <path
-                        d="M12 2C12 7.5 14.5 10 20 12C14.5 12 12 14.5 12 20C12 14.5 9.5 12 4 12C9.5 12 12 9.5 12 2Z"
+                        d="M12 2C12 7.5 12 10 20 12C14.5 12 12 14.5 12 20C12 14.5 9.5 12 4 12C9.5 12 12 9.5 12 2Z"
                         fill="currentColor"
                         stroke="currentColor"
                         strokeWidth="0.5"
@@ -38,17 +38,11 @@ export default function Logo({ className = '', iconOnly = false }: LogoProps) {
             </div>
 
             {/* Текстовая часть логотипа с плавной анимацией исчезновения */}
-            {!iconOnly && (
-                <motion.span
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent whitespace-nowrap"
-                >
-                    Prisma
-                </motion.span>
-            )}
+                {!iconOnly && (
+                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent whitespace-nowrap">
+                Prisma
+                </span>
+                )}
         </div>
     );
 }

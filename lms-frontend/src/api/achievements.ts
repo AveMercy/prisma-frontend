@@ -23,4 +23,6 @@ export const achievementsApi = {
         apiClient.get<UserAchievement[]>(
             userId ? `/achievement/user/${userId}` : '/achievement/user'
         ),
+    getNewAchievements: () =>
+        apiClient.get<{ achievements: UserAchievement[] }>('/achievement/new'),
 };

@@ -97,7 +97,7 @@ export default function LectureEditPage() {
                                 variant={type === t ? 'default' : 'outline'}
                                 onClick={() => setType(t)}
                             >
-                                {t === 'theory' ? 'Теория' : t === 'practice' ? 'Практика' : 'Квиз'}
+                                {t === 'theory' ? 'Теория' : t === 'practice' ? 'Практика' : 'Тест'}
                             </Button>
                         ))}
                     </div>

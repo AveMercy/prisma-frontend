@@ -17,59 +17,34 @@ export interface Submission {
     grade: number | null;
     feedback: string | null;
     submittedAt: string;
-    student?: {
-        id: number;
-        fullName: string;
-        email: string;
-    };
+    student?: { id: number; fullName: string; email: string };
 }
-
-export const assignmentsApi = {
-    getByLecture: (lectureId: number) =>
-        apiClient.get<Assignment[]>(`/assignments/lecture/${lectureId}`),
-
-    create: (data: {
-        lectureId: number;
-        title: string;
-        taskDescription?: string;
-        dueDate?: string;
-    }) =>
-        apiClient.post('/assignments', data),
-
-    submit: (assignmentId: number, solutionUrl: string) =>
-        apiClient.post('/assignments/submit', { assignmentId, solutionUrl }),
-
-    getSubmissions: (assignmentId: number) =>
-        apiClient.get<Submission[]>(`/assignments/submissions/${assignmentId}`),
-
-    grade: (submissionId: number, grade: number, feedback?: string) =>
-        apiClient.put(`/assignments/grade/${submissionId}`, { grade, feedback }),
-
-    getMyAssignments: () =>
-        apiClient.get<{ assignments: AssignmentFull[] }>('/assignments/my'),
-
-    getTeacherAssignments: () =>
-        apiClient.get<{ assignments: AssignmentFull[] }>('/assignments/teacher'),
-};
 
 export interface AssignmentFull {
     id: number;
     title: string;
     taskDescription: string | null;
     dueDate: string | null;
-    lecture: {
-        id: number;
-        title: string;
-        module: {
-            id: number;
-            title: string;
-            course: { id: number; title: string };
-        };
-    };
-    submissions: {
-        id: number;
-        grade: number | null;
-        submittedAt: string;
-        student?: { id: number; fullName: string };
-    }[];
+    lecture: { id: number; title: string; module: { course: { id: number; title: string } } };
+    submissions: Submission[];
 }
+
+export const assignmentsApi = {
+    getByLecture: (lectureId: number) =>
+        apiClient.get<Assignment[]>(`/assignments/lecture/${lectureId}`),
+
+    create: (data: { lectureId: number; title: string; taskDescription?: string; dueDate?: string }) =>
+        apiClient.post('/assignments', data),
+
+    getMyAssignments: () =>
+        apiClient.get<{ assignments: AssignmentFull[] }>('/assignments/my'),
+
+    getTeacherAssignments: () =>
+        apiClient.get<{ assignments: AssignmentFull[] }>('/assignments/teacher'),
+
+    getSubmissions: (assignmentId: number) =>
+        apiClient.get<{ submissions: Submission[] }>(`/assignments/submissions/${assignmentId}`),
+
+    grade: (submissionId: number, grade: number, feedback?: string) =>
+        apiClient.put(`/assignments/grade/${submissionId}`, { grade, feedback }),
+};

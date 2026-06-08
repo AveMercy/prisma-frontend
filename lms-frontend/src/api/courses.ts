@@ -44,7 +44,14 @@ export const coursesApi = {
     delete: (id: number) =>
         apiClient.delete(`/courses/${id}`),
 
-    enroll: (courseIds: number[]) =>
-        apiClient.post('/courses/enroll', { courseIds }),
+    enroll: (courseId: number) =>
+        apiClient.post('/courses/enroll', { courseId }),
+
+    unenroll: (courseId: number) =>
+        apiClient.post('/courses/unenroll', { courseId }),
+
+    updateStatus: (courseId: number, status: 'active' | 'favorite' | 'archived') =>
+        apiClient.put('/courses/status', { courseId, status }),
+
 };
 

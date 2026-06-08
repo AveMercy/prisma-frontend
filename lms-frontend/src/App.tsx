@@ -24,6 +24,10 @@ import MyGroupPage from '@/pages/MyGroupPage';
 import UserProfilePage from "@/pages/UserProfilePage.tsx";
 import AssignmentsPage from '@/pages/AssignmentsPage';
 import CodePlaygroundPage from '@/pages/CodePlaygroundPage';
+import PracticeSubmitPage from '@/pages/PracticeSubmitPage';
+import GradesPage from '@/pages/GradesPage';
+import { Toaster } from '@/components/ui/sonner';
+import MyCoursesPage from '@/pages/MyCoursesPage';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +45,7 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
+                <Toaster position="bottom-right" richColors />
                 <BrowserRouter>
                     <AuthInitializer>
                         <Routes>
@@ -50,6 +55,15 @@ export default function App() {
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
                             </Route>
+
+                            <Route
+                                path="/course/:courseId/practice/:lectureId"
+                                element={
+                                    <ProtectedRoute>
+                                        <PracticeSubmitPage />
+                                    </ProtectedRoute>
+                                }
+                            />
 
                             {/* Course page — свой лейаут */}
                             <Route
@@ -71,10 +85,12 @@ export default function App() {
                             >
                                 <Route path="/dashboard" element={<DashboardPage />} />
                                 <Route path="/catalog" element={<CatalogPage />} />
+
                                 <Route path="/onboarding" element={<OnboardingPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
                                 <Route path="/lectures/create" element={<LectureCreatePage />} />
+                                <Route path="/my-courses" element={<MyCoursesPage />} />
                                 <Route path="/lectures/edit/:lectureId" element={<LectureEditPage />} />
                                 <Route path="/teacher/courses" element={<TeacherCoursesPage />} />
                                 <Route path="/teacher/courses/:courseId" element={<TeacherCourseEditPage />} />
@@ -83,6 +99,7 @@ export default function App() {
                                 <Route path="/user/:userId" element={<UserProfilePage />} />
                                 <Route path="/assignments" element={<AssignmentsPage />} />
                                 <Route path="/playground" element={<CodePlaygroundPage />} />
+                                <Route path="/grades" element={<GradesPage />} />
                             </Route>
                         </Routes>
                     </AuthInitializer>

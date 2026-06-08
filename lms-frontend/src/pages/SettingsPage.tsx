@@ -31,6 +31,21 @@ export default function SettingsPage() {
         settingsMutation.mutate(newSettings);
     };
 
+    const [achievementNotifications, setAchievementNotifications] = useState(
+        user?.settings?.achievement_notifications ?? true
+    );
+
+// В handleToggle:
+    const handleToggleAchievementNotifications = (checked: boolean) => {
+        setAchievementNotifications(checked);
+        settingsMutation.mutate({
+            ...user?.settings,
+            theme,
+            show_achievements: showAchievements,
+            achievement_notifications: checked,
+        });
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
             <h1 className="text-3xl font-bold mb-8">Настройки</h1>
@@ -82,16 +97,29 @@ export default function SettingsPage() {
                                 <h3 className="font-medium">Email-уведомления</h3>
                                 <p className="text-sm text-muted-foreground">Получать уведомления о новых заданиях</p>
                             </div>
-                            <Switch checked={emailNotifications} onCheckedChange={v => handleToggle('email_notifications', v, setEmailNotifications)} />
+
+                            <Switch checked={emailNotifications}
+                                    onCheckedChange={v => handleToggle('email_notifications', v, setEmailNotifications)}/>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div>
+                                    <h3 className="font-medium">Уведомления о достижениях</h3>
+                                    <p className="text-sm text-muted-foreground">Показывать всплывающие уведомления</p>
+                                </div>
+                            </div>
+                            <Switch checked={achievementNotifications}
+                                    onCheckedChange={handleToggleAchievementNotifications}/>
                         </div>
                     </CardContent>
                 </Card>
+
 
                 {/* Приватность */}
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <Shield className="h-5 w-5" /> Приватность
+                            <Shield className="h-5 w-5"/> Приватность
                         </CardTitle>
                         <CardDescription>Настройки конфиденциальности</CardDescription>
                     </CardHeader>

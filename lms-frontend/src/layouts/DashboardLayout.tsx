@@ -18,21 +18,26 @@ import {
     LogOut,
     Sun,
     Moon,
-    GraduationCap,
     Menu,
     ChevronLeft,
     Users,
     ClipboardList,
-    Code
+    Code,
+    Star
 } from 'lucide-react';
 
 import Logo from "@/pages/Logo.tsx";
+import AchievementToast from '@/components/AchievementToast';
+
 
 const studentNavItems = [
-    { to: '/dashboard', icon: LayoutDashboard, label: 'Мои курсы' },
+    { to: '/dashboard', icon: LayoutDashboard, label: 'Дашборд' },
+    { to: '/my-courses', icon: LayoutDashboard, label: 'Мои курсы' },
+
     { to: '/catalog', icon: Compass, label: 'Каталог курсов' },
     { to: '/playground', icon: Code, label: 'Code Playground' },
     { to: '/assignments', icon: ClipboardList, label: 'Задания' },
+    { to: '/grades', icon: Star, label: 'Успеваемость' },
     { to: '/my-group', icon: Users, label: 'Моя группа' },
     { to: '/settings', icon: Settings, label: 'Настройки' },
 ];
@@ -104,6 +109,7 @@ export default function DashboardLayout() {
         </div>
     );
 
+
     return (
         <div className="flex h-screen overflow-hidden bg-background">
             <aside
@@ -167,6 +173,7 @@ export default function DashboardLayout() {
 
                 <main className="flex-1 overflow-y-auto">
                     <Outlet/>
+                    <AchievementToast />
                 </main>
             </div>
         </div>

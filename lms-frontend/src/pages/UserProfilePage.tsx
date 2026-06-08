@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, ChevronLeft, Mail, Calendar, BookOpen, Users, CodeXml, Globe, MessageCircle, Phone, FileText, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserProfilePage() {
     const { userId } = useParams<{ userId: string }>();
@@ -14,6 +15,7 @@ export default function UserProfilePage() {
         queryFn: async () => { const res = await userApi.getUserById(parseInt(userId!)); return res.data; },
         enabled: !!userId,
     });
+    const navigate = useNavigate();
 
     if (isLoading) return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     if (!data?.user) return <div className="text-center py-20 text-muted-foreground">Пользователь не найден</div>;
@@ -24,16 +26,19 @@ export default function UserProfilePage() {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-3xl">
-            <Link to=".." className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
-                <ChevronLeft className="h-4 w-4" /> Назад
-            </Link>
+            <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"
+            >
+                <ChevronLeft className="h-4 w-4"/> Назад
+            </button>
 
             {/* Основная информация */}
             <Card>
                 <CardContent className="p-6">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
                         <Avatar className="h-24 w-24">
-                            <AvatarImage src={user.avatarUrl ? `http://localhost:5000${user.avatarUrl}` : undefined} />
+                            <AvatarImage src={user.avatarUrl ? `http://localhost:5000${user.avatarUrl}` : undefined}/>
                             <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
                         </Avatar>
                         <div className="text-center sm:text-left flex-1">
@@ -47,39 +52,43 @@ export default function UserProfilePage() {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="flex items-center gap-2 text-sm">
-                            <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                            <span>На платформе с <span className="font-medium">{new Date(user.createdAt).toLocaleDateString('ru-RU')}</span></span>
+                            <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
+                            <span>На платформе с <span
+                                className="font-medium">{new Date(user.createdAt).toLocaleDateString('ru-RU')}</span></span>
                         </div>
                         {group && (
                             <div className="flex items-center gap-2 text-sm">
-                                <Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                <span>Группа: <Link to="/my-group" className="font-medium text-primary hover:underline">{group.name}</Link></span>
+                                <Users className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
+                                <span>Группа: <Link to="/my-group"
+                                                    className="font-medium text-primary hover:underline">{group.name}</Link></span>
                             </div>
                         )}
                         {user.phone && (
                             <div className="flex items-center gap-2 text-sm">
-                                <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
                                 <span>{user.phone}</span>
                             </div>
                         )}
                         {user.telegram && (
                             <div className="flex items-center gap-2 text-sm">
-                                <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                <MessageCircle className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
                                 <span>@{user.telegram}</span>
                             </div>
                         )}
                         {user.github && (
                             <div className="flex items-center gap-2 text-sm">
-                                <CodeXml className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                <a href={`https://github.com/${user.github}`} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                                <CodeXml className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
+                                <a href={`https://github.com/${user.github}`} target="_blank" rel="noopener noreferrer"
+                                   className="font-medium text-primary hover:underline">
                                     {user.github}
                                 </a>
                             </div>
                         )}
                         {user.website && (
                             <div className="flex items-center gap-2 text-sm">
-                                <Globe className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                <a href={user.website} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline truncate">
+                                <Globe className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
+                                <a href={user.website} target="_blank" rel="noopener noreferrer"
+                                   className="font-medium text-primary hover:underline truncate">
                                     {user.website}
                                 </a>
                             </div>
@@ -93,7 +102,7 @@ export default function UserProfilePage() {
                 <Card className="mt-6">
                     <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
-                            <FileText className="h-5 w-5" /> О себе
+                            <FileText className="h-5 w-5"/> О себе
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -107,7 +116,7 @@ export default function UserProfilePage() {
                 <Card className="mt-6">
                     <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
-                            <BookOpen className="h-5 w-5" /> Записан на курсы ({(user as any).courseEnrollments.length})
+                            <BookOpen className="h-5 w-5"/> Записан на курсы ({(user as any).courseEnrollments.length})
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -118,7 +127,7 @@ export default function UserProfilePage() {
                                     to={`/course/${e.course.id}`}
                                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
                                 >
-                                    <BookOpen className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                    <BookOpen className="h-4 w-4 text-muted-foreground flex-shrink-0"/>
                                     <span className="text-sm">{e.course.title}</span>
                                 </Link>
                             ))}
@@ -131,7 +140,7 @@ export default function UserProfilePage() {
             <Card className="mt-6">
                 <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
-                        <Clock className="h-5 w-5" /> Статистика
+                        <Clock className="h-5 w-5"/> Статистика
                     </CardTitle>
                 </CardHeader>
                 <CardContent>

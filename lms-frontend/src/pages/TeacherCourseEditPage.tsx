@@ -159,7 +159,7 @@ export default function TeacherCourseEditPage() {
                                             <Icon className="h-3.5 w-3.5 text-muted-foreground" />
                                             <span className="flex-1">{lec.title}</span>
                                             <Badge variant="outline" className="text-xs">
-                                                {lec.type === 'theory' ? 'Теория' : lec.type === 'practice' ? 'Практика' : 'Квиз'}
+                                                {lec.type === 'theory' ? 'Теория' : lec.type === 'practice' ? 'Практика' : 'Тест'}
                                             </Badge>
                                             <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Button

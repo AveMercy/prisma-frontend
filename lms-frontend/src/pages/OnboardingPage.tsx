@@ -1,141 +1,203 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
-import { GraduationCap, Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
-import type { AxiosError } from 'axios';
-import type { ApiError } from '@/types';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { categoriesApi, type Category } from '@/api/categories';
+import { tagsApi, type Tag } from '@/api/tags';
+import { coursesApi, type Course } from '@/api/courses';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import Logo from '@/pages/Logo';
+import { ArrowRight, Check, Sparkles, Code, Globe, Database, Palette, Smartphone, BarChart3, Wrench, Users } from 'lucide-react';
 
-export default function Login() {
+const steps = ['Категории', 'Технологии', 'Уровень'];
+
+const categoryIcons: Record<string, React.ElementType> = {
+    'Веб-разработка': Globe,
+    'DevOps и инфраструктура': Database,
+    'Дизайн и UX/UI': Palette,
+    'Мобильная разработка': Smartphone,
+    'Аналитика данных': BarChart3,
+    'Инструменты разработки': Wrench,
+    'Soft Skills и процессы': Users,
+};
+
+export default function OnboardingPage() {
     const navigate = useNavigate();
-    const { login, isLoading } = useAuthStore();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
+    const [step, setStep] = useState(0);
+    const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [selectedTags, setSelectedTags] = useState<number[]>([]);
+    const [level, setLevel] = useState<string>('beginner');
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
+    const { data: categories } = useQuery({
+        queryKey: ['categories'],
+        queryFn: async () => { const res = await categoriesApi.getAll(); return res.data; },
+    });
 
+    const { data: tags } = useQuery({
+        queryKey: ['tags'],
+        queryFn: async () => { const res = await tagsApi.getAll(); return res.data; },
+    });
+
+    const toggleCategory = (id: number) => {
+        setSelectedCategories(prev => prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]);
+    };
+
+    const toggleTag = (id: number) => {
+        setSelectedTags(prev => prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]);
+    };
+
+    const handleFinish = async () => {
         try {
-            await login(email, password);
-            navigate('/dashboard');
+            if (selectedCategories.length > 0) {
+                const res = await coursesApi.getAll({ categoryId: selectedCategories[0] });
+                const courseIds = res.data.map((c: Course) => c.id);
+                if (courseIds.length > 0) {
+                    await coursesApi.enroll(courseIds.slice(0, 5));
+                }
+            }
         } catch (err) {
-            const axiosError = err as AxiosError<ApiError>;
-            setError(axiosError.response?.data?.error || 'Ошибка входа. Проверьте данные.');
+            console.error('Ошибка записи на курсы:', err);
         }
+        navigate('/dashboard');
     };
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center px-4 py-12 bg-background overflow-hidden">
-            {/* Ambient background orbs from landing */}
-            <div className="fixed inset-0 pointer-events-none -z-10">
-                <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/5 blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-500/5 blur-[120px]" />
-            </div>
-
-            <div className="w-full max-w-md relative">
-                {/* Top Brand Indicator */}
+        <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-2xl">
+                {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-muted/50 border border-border mb-4 backdrop-blur-xl">
-                        <GraduationCap className="h-7 w-7 text-blue-500" />
+                    <div className="flex justify-center mb-4">
+                        <Logo />
                     </div>
-                    <h1 className="text-3xl font-black tracking-tight mb-1">Вход в Prisma</h1>
-                    <p className="text-sm text-muted-foreground font-light">
-                        Войдите, чтобы продолжить обучение
+                    <h1 className="text-2xl font-bold mt-4">Настроим ваше обучение</h1>
+                    <p className="text-muted-foreground mt-1.5">
+                        Выберите, что вам интересно, и мы подберём подходящие курсы
                     </p>
                 </div>
 
-                {/* Glass Card Container */}
-                <div className="relative group">
-                    <div className="absolute -inset-px bg-gradient-to-b from-white/10 to-transparent rounded-[2rem] pointer-events-none" />
-                    <div className="bg-card/40 border border-border/50 backdrop-blur-2xl rounded-[2rem] p-8 sm:p-10 shadow-2xl overflow-hidden relative">
-
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            {/* Email Input */}
-                            <div className="space-y-2">
-                                <label htmlFor="email" className="text-xs uppercase tracking-widest font-bold text-muted-foreground block pl-1">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border/60 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/10 transition-all text-sm"
-                                />
-                            </div>
-
-                            {/* Password Input */}
-                            <div className="space-y-2">
-                                <label htmlFor="password" className="text-xs uppercase tracking-widest font-bold text-muted-foreground block pl-1">
-                                    Пароль
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        id="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        placeholder="••••••••"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border/60 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/10 transition-all text-sm pr-10"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Error Message */}
-                            {error && (
-                                <p className="text-sm text-red-500 dark:text-red-400 pl-1 animate-in fade-in slide-in-from-top-1">
-                                    {error}
-                                </p>
-                            )}
-
-                            {/* Preserved Signature Glow Button Style */}
-                            <div className="relative group/btn pt-2">
-                                <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 rounded-xl blur-sm opacity-50 group-hover/btn:opacity-100 transition duration-300" />
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="w-full relative flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold bg-background transition-all active:scale-[0.99] text-sm disabled:opacity-80"
-                                    style={{
-                                        background: 'linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(135deg, #3b82f6, #06b6d4, #3b82f6) border-box',
-                                        border: '1px solid transparent',
-                                    }}
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
-                                            <span>Вход...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span>Войти в аккаунт</span>
-                                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover/btn:translate-x-1 transition-transform" />
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-
-                        {/* Bottom Redirect */}
-                        <p className="mt-8 text-center text-sm text-muted-foreground font-light">
-                            Нет аккаунта?{' '}
-                            <Link to="/register" className="font-semibold text-foreground hover:text-blue-500 transition-colors underline underline-offset-4 decoration-border hover:decoration-blue-500">
-                                Зарегистрироваться
-                            </Link>
-                        </p>
+                {/* Progress */}
+                <div className="mb-8">
+                    <Progress value={((step + 1) / steps.length) * 100} className="h-1.5" />
+                    <div className="flex justify-between mt-2 text-sm text-muted-foreground">
+                        {steps.map((s, i) => (
+                            <span key={s} className={i <= step ? 'text-primary font-medium' : ''}>{s}</span>
+                        ))}
                     </div>
                 </div>
+
+                {/* Step 1: Categories */}
+                {step === 0 && (
+                    <div>
+                        <h2 className="text-lg font-semibold mb-4">Какие направления вас интересуют?</h2>
+                        <div className="grid grid-cols-2 gap-3">
+                            {categories?.map((cat: Category) => {
+                                const Icon = categoryIcons[cat.name] || Code;
+                                const isSelected = selectedCategories.includes(cat.id);
+                                return (
+                                    <Card
+                                        key={cat.id}
+                                        onClick={() => toggleCategory(cat.id)}
+                                        className={`cursor-pointer p-4 transition-all border-2 ${
+                                            isSelected
+                                                ? 'border-primary/50 bg-primary/5 shadow-sm'
+                                                : 'border-transparent hover:border-primary/20 hover:bg-muted/50'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className={`h-9 w-9 rounded-lg flex items-center justify-center transition-colors ${
+                                                isSelected ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
+                                            }`}>
+                                                <Icon className="h-4.5 w-4.5" />
+                                            </div>
+                                            <span className="font-medium text-sm">{cat.name}</span>
+                                            {isSelected && (
+                                                <div className="ml-auto h-5 w-5 rounded-full bg-primary flex items-center justify-center">
+                                                    <Check className="h-3 w-3 text-primary-foreground" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Card>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Step 2: Tags */}
+                {step === 1 && (
+                    <div>
+                        <h2 className="text-lg font-semibold mb-4">Какие технологии знаете или хотите изучить?</h2>
+                        <div className="flex flex-wrap gap-2">
+                            {tags?.map((tag: Tag) => (
+                                <Badge
+                                    key={tag.id}
+                                    variant={selectedTags.includes(tag.id) ? 'default' : 'outline'}
+                                    className={`cursor-pointer px-3.5 py-2 text-sm transition-all ${
+                                        selectedTags.includes(tag.id)
+                                            ? 'shadow-sm'
+                                            : 'hover:bg-muted'
+                                    }`}
+                                    onClick={() => toggleTag(tag.id)}
+                                >
+                                    {tag.name}
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Step 3: Level */}
+                {step === 2 && (
+                    <div>
+                        <h2 className="text-lg font-semibold mb-4">Ваш текущий уровень?</h2>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            {[
+                                { value: 'beginner', label: 'Начинающий', desc: 'Только начинаю', emoji: '🌱' },
+                                { value: 'intermediate', label: 'Средний', desc: 'Есть база, хочу глубже', emoji: '🔥' },
+                                { value: 'advanced', label: 'Продвинутый', desc: 'Хочу сложные темы', emoji: '🚀' },
+                            ].map((opt) => (
+                                <Card
+                                    key={opt.value}
+                                    onClick={() => setLevel(opt.value)}
+                                    className={`cursor-pointer p-4 text-center transition-all border-2 ${
+                                        level === opt.value
+                                            ? 'border-primary/50 bg-primary/5 shadow-sm'
+                                            : 'border-transparent hover:border-primary/20 hover:bg-muted/50'
+                                    }`}
+                                >
+                                    <div className="text-2xl mb-1.5">{opt.emoji}</div>
+                                    <h3 className="font-semibold text-sm">{opt.label}</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Navigation */}
+                <div className="flex justify-between mt-8">
+                    <Button variant="outline" onClick={() => setStep(s => s - 1)} disabled={step === 0}>
+                        Назад
+                    </Button>
+
+                    {step < steps.length - 1 ? (
+                        <Button onClick={() => setStep(s => s + 1)}>
+                            Далее
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    ) : (
+                        <Button onClick={handleFinish} className="gap-2">
+                            <Sparkles className="h-4 w-4" />
+                            Начать обучение
+                        </Button>
+                    )}
+                </div>
+
+                <p className="text-center text-sm text-muted-foreground mt-5">
+                    Можно пропустить и настроить позже в профиле
+                </p>
             </div>
         </div>
     );

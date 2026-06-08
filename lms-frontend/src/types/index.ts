@@ -25,3 +25,9 @@ export interface ApiError {
     error?: string;
     message?: string;
 }
+
+export interface UserSettings {
+    theme: 'light' | 'dark';
+    show_achievements: boolean;
+    achievement_notifications: boolean;
+}
