@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/authStore';
 import { Loader2, Send, CheckCircle, ExternalLink, Clock, AlertCircle, Paperclip, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { getApiUrl } from '@/lib/utils';
+import { getImageUrl } from '@/lib/utils';
 
 interface Props {
     assignment: Assignment;
@@ -88,7 +89,7 @@ export default function AssignmentView({ assignment }: Props) {
                         {submission.solutionUrl && (
                             <div className="flex items-center justify-between">
                                 <a
-                                    href={`http://localhost:5000${submission.solutionUrl}`}
+                                    href={getImageUrl(submission.solutionUrl)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-sm text-primary hover:underline flex items-center gap-1"

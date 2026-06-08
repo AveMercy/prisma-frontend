@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { GripVertical, Trash2, ChevronUp, ChevronDown, Upload  } from 'lucide-react';
 import type { LectureBlock } from '@/types/lecture';
 import { getApiUrl } from '@/lib/utils';
+import { getImageUrl } from '@/lib/utils';
 
 interface Props {
     block: LectureBlock;
@@ -219,7 +220,7 @@ export default function EditableBlock({ block, onChange, onDelete, onMoveUp, onM
                     ) : (
                         <div className="relative group">
                             <img
-                                src={`http://localhost:5000${block.src}`}
+                                src={getImageUrl(block.src)}
                                 alt={block.alt || ''}
                                 className="rounded-xl w-full max-h-60 object-cover"
                             />
