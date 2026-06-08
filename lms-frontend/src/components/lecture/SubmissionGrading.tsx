@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Loader2, Check, ExternalLink, Paperclip } from 'lucide-react';
 import { toast } from 'sonner';
+import { getImageUrl } from '@/lib/utils';
 
 interface Props {
     submission: Submission;
@@ -32,7 +33,7 @@ export default function SubmissionGrading({ submission, assignmentId }: Props) {
                 <span className="font-medium text-sm">{submission.student?.fullName || 'Студент'}</span>
                 {submission.solutionUrl && (
                     <a
-                        href={`http://localhost:5000${submission.solutionUrl}`}
+                        href={getImageUrl(submission.solutionUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-primary hover:underline flex items-center gap-1"

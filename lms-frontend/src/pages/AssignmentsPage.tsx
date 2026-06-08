@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { getImageUrl } from '@/lib/utils';
 import {
     Loader2, CheckCircle, BookOpen, ChevronRight, ChevronDown,
     Users, FileText, Code, Paperclip, RotateCw,
@@ -262,8 +263,9 @@ function SubmissionsList({ assignmentId }: { assignmentId: number }) {
                     <div className="flex items-center justify-between">
                         <span className="font-medium text-sm">{sub.student?.fullName || 'Студент'}</span>
                         {sub.solutionUrl && (
-                            <a href={`http://localhost:5000${sub.solutionUrl}`} target="_blank" rel="noopener noreferrer" className="text-xs text-primary flex items-center gap-1">
-                                <Paperclip className="h-3 w-3" />Файл
+                            <a href={getImageUrl(sub.solutionUrl)} target="_blank" rel="noopener noreferrer"
+                               className="text-xs text-primary flex items-center gap-1">
+                                <Paperclip className="h-3 w-3"/>Файл
                             </a>
                         )}
                     </div>

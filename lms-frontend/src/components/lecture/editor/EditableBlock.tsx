@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea.tsx';
 import { Label } from '@/components/ui/label';
 import { GripVertical, Trash2, ChevronUp, ChevronDown, Upload  } from 'lucide-react';
 import type { LectureBlock } from '@/types/lecture';
+import { getApiUrl } from '@/lib/utils';
 
 interface Props {
     block: LectureBlock;
@@ -192,7 +193,7 @@ export default function EditableBlock({ block, onChange, onDelete, onMoveUp, onM
 
                                     try {
                                         const token = localStorage.getItem('token');
-                                        const res = await fetch('http://localhost:5000/api/upload/single', {
+                                        const res = await fetch(getApiUrl('/upload/single'), {
                                             method: 'POST',
                                             headers: {
                                                 Authorization: `Bearer ${token}`,

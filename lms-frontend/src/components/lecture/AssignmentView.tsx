@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/store/authStore';
 import { Loader2, Send, CheckCircle, ExternalLink, Clock, AlertCircle, Paperclip, FileText } from 'lucide-react';
 import { toast } from 'sonner';
+import { getApiUrl } from '@/lib/utils';
 
 interface Props {
     assignment: Assignment;
@@ -34,7 +35,7 @@ export default function AssignmentView({ assignment }: Props) {
             if (file) formData.append('file', file);
 
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/assignments/submit', {
+            const res = await fetch(getApiUrl('/assignments/submit'), {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
                 body: formData,

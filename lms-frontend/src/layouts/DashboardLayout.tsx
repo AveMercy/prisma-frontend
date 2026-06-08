@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getImageUrl } from '@/lib/utils';
 import {
     Sheet,
     SheetContent,
@@ -155,7 +156,7 @@ export default function DashboardLayout() {
 
                             <Link to="/profile" className="flex items-center gap-2 pl-2 border-l hover:opacity-80 transition-opacity">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src={user?.avatarUrl ? `http://localhost:5000${user.avatarUrl}` : undefined} />
+                                    <AvatarImage src={getImageUrl(user?.avatarUrl)} />
                                     <AvatarFallback className="text-xs">{initials}</AvatarFallback>
                                 </Avatar>
                                 <div className="hidden sm:block">

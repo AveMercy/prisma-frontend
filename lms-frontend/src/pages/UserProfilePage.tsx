@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, ChevronLeft, Mail, Calendar, BookOpen, Users, CodeXml, Globe, MessageCircle, Phone, FileText, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getImageUrl } from '@/lib/utils';
 
 export default function UserProfilePage() {
     const { userId } = useParams<{ userId: string }>();
@@ -38,7 +39,7 @@ export default function UserProfilePage() {
                 <CardContent className="p-6">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
                         <Avatar className="h-24 w-24">
-                            <AvatarImage src={user.avatarUrl ? `http://localhost:5000${user.avatarUrl}` : undefined}/>
+                            <AvatarImage src={getImageUrl(student.avatarUrl)} />
                             <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
                         </Avatar>
                         <div className="text-center sm:text-left flex-1">

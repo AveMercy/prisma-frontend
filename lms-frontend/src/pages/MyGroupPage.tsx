@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage  } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Users, LogIn, Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '@/lib/utils';
 
 
 export default function MyGroupPage() {
@@ -97,9 +98,7 @@ export default function MyGroupPage() {
                                 className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-muted"
                             >
                                 <Avatar className="h-10 w-10">
-                                    <AvatarImage
-                                        src={u.avatarUrl ? `http://localhost:5000${u.avatarUrl}` : undefined}
-                                    />
+                                    <AvatarImage src={getImageUrl(u.avatarUrl) || undefined} />
                                     <AvatarFallback>
                                         {u.fullName.split(' ').map(n => n[0]).join('').toUpperCase()}
                                     </AvatarFallback>

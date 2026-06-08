@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage  } from '@/components/ui/avatar';
+import { getImageUrl } from '@/lib/utils';
 import {
     Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from '@/components/ui/dialog';
@@ -118,9 +119,7 @@ export default function TeacherGroupsPage() {
                                     <div key={student.id} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-muted">
                                         <Link to={`/user/${student.id}`} className="flex items-center gap-3 flex-1">
                                             <Avatar className="h-8 w-8">
-                                                <AvatarImage
-                                                    src={student.avatarUrl ? `http://localhost:5000${student.avatarUrl}` : undefined}
-                                                />
+                                                <AvatarImage src={getImageUrl(student.avatarUrl)} />
                                                 <AvatarFallback className="text-xs">
                                                     {student.fullName.split(' ').map(n => n[0]).join('').toUpperCase()}
                                                 </AvatarFallback>

@@ -4,6 +4,7 @@ import InfoPanel from './InfoPanel';
 import CodeBlock from './CodeBlock';
 import SectionBlock from './SectionBlock';
 import type { LectureBlock } from '@/types/lecture';
+import { getImageUrl } from '@/lib/utils';
 
 interface Props {
     blocks: LectureBlock[];
@@ -83,9 +84,7 @@ export default function BlockRenderer({ blocks }: Props) {
                         );
 
                     case 'image':
-                        const imageSrc = block.src?.startsWith('http')
-                            ? block.src
-                            : `http://localhost:5000${block.src}`;
+                        const imageSrc = getImageUrl(block.src);
                         return (
                             <figure key={block.id} className="my-6">
                                 <img

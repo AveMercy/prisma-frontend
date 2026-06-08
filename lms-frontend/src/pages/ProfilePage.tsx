@@ -19,6 +19,7 @@ import {
     Users, MessageCircle, ExternalLink, Globe, Phone, FileText, Code,
     GitFork, Sparkles,
 } from 'lucide-react';
+import { getApiUrl, getImageUrl } from '@/lib/utils';
 
 const achievementIcons: Record<string, React.ElementType> = {
     FIRST_LECTURE: BookOpen, FIRST_COURSE: Star, FIVE_LECTURES: Zap,
@@ -123,7 +124,7 @@ export default function ProfilePage() {
         formData.append('file', file);
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/upload/single', {
+            const res = await fetch(getApiUrl('/upload/single'), {
                 method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData,
             });
             const data = await res.json();
@@ -170,7 +171,7 @@ export default function ProfilePage() {
                                 <div className="flex flex-col sm:flex-row items-center gap-6">
                                     <div className="relative group">
                                         <Avatar className="h-24 w-24">
-                                            <AvatarImage src={avatarUrl ? `http://localhost:5000${avatarUrl}` : undefined} />
+                                            <AvatarImage src={getImageUrl(avatarUrl)} />
                                             <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
                                         </Avatar>
                                         <label className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
