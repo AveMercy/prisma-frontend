@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 const languageMap: Record<string, string> = {
     js: 'javascript',
@@ -71,7 +71,7 @@ export default function CodeBlock({
             </div>
             <SyntaxHighlighter
                 language={hljsLang}
-                style={atomOneDark}
+                style={oneDark}
                 customStyle={{
                     margin: 0,
                     padding: '1rem',
