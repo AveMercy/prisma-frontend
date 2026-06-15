@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getImageUrl(path: string | null | undefined): string {
   if (!path) return '';
   if (path.startsWith('http') || path.startsWith('data:')) return path;
-  return path; // Vercel проксирует /uploads/ на бэкенд
+  return path;
 }
 
 export function getApiUrl(path: string): string {

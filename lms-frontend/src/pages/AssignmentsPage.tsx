@@ -69,7 +69,7 @@ export default function AssignmentsPage() {
                 </div>
             </div>
 
-            {/* ========== ПРЕПОДАВАТЕЛЬ ========== */}
+            {/* ПРЕПОДАВАТЕЛЬ */}
             {isTeacher && (
                 <div className="space-y-8">
                     {/* Практические */}
@@ -115,7 +115,7 @@ export default function AssignmentsPage() {
                 </div>
             )}
 
-            {/* ========== СТУДЕНТ ========== */}
+            {/* СТУДЕНТ */}
             {!isTeacher && (
                 <div className="space-y-4">
                     {assignments.length === 0 ? (
@@ -153,7 +153,6 @@ export default function AssignmentsPage() {
     );
 }
 
-// ===== Сворачиваемая секция =====
 function CollapsibleSection({
                                 title, icon, count, newCount, defaultExpanded, children
                             }: {
@@ -182,7 +181,7 @@ function CollapsibleSection({
     );
 }
 
-// ===== Группа по курсу =====
+// Группа по курсу
 function CourseGroup({ courseName, assignments }: { courseName: string; assignments: AssignmentFull[] }) {
     const [expanded, setExpanded] = useState(true);
     const [expandedAssignment, setExpandedAssignment] = useState<number | null>(null);
@@ -241,7 +240,7 @@ function CourseGroup({ courseName, assignments }: { courseName: string; assignme
     );
 }
 
-// ===== Список сдач =====
+// Список сдач
 function SubmissionsList({ assignmentId }: { assignmentId: number }) {
     const queryClient = useQueryClient();
     const { data, isLoading } = useQuery({
@@ -278,7 +277,7 @@ function SubmissionsList({ assignmentId }: { assignmentId: number }) {
     );
 }
 
-// ===== Быстрая оценка =====
+// Быстрая оценка
 function QuickGrade({ submission, assignmentId, onGraded }: { submission: any; assignmentId: number; onGraded: () => void }) {
     const [grade, setGrade] = useState(submission.grade?.toString() || '');
     const [feedback, setFeedback] = useState('');
@@ -310,7 +309,7 @@ function QuickGrade({ submission, assignmentId, onGraded }: { submission: any; a
     );
 }
 
-// ===== Карточка практической (сворачиваемая) =====
+// Карточка практической
 function PracticeCard({ submission, onGraded }: { submission: any; onGraded: () => void }) {
     const [expanded, setExpanded] = useState(false);
 

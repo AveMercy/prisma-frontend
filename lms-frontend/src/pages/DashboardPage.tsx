@@ -20,7 +20,6 @@ import {
     ResponsiveContainer, BarChart, Bar, Cell,
 } from 'recharts';
 
-// ==================== ДАШБОРД СТУДЕНТА ====================
 function StudentDashboard() {
     const navigate = useNavigate();
 
@@ -61,10 +60,10 @@ function StudentDashboard() {
         : null;
     const pendingAssignments = myAssignments.filter((a: any) => a.submissions?.[0] && a.submissions[0].grade == null).length;
 
-    // Данные для графика активности (последние 7 дней)
+    // Данные для графика активности
     const activityData = generateActivityData();
 
-    // Календарь (последние 30 дней)
+    // Календарь
     const calendarData = generateCalendarData(progressData);
 
     return (
@@ -225,7 +224,6 @@ function StudentDashboard() {
     );
 }
 
-// ==================== ГЕНЕРАТОРЫ ДАННЫХ ====================
 function generateActivityData() {
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     return days.map(day => ({
@@ -248,7 +246,6 @@ function generateCalendarData(progressData: any) {
     return days;
 }
 
-// ==================== ДАШБОРД ПРЕПОДА ====================
 function TeacherDashboard() {
     const navigate = useNavigate();
     const { data: practiceSubmissions = [] } = useQuery({
@@ -327,7 +324,6 @@ function TeacherDashboard() {
     );
 }
 
-// ==================== ГЛАВНЫЙ КОМПОНЕНТ ====================
 export default function DashboardPage() {
     const { user } = useAuthStore();
     const isTeacher = user?.role === 'teacher' || user?.role === 'admin';

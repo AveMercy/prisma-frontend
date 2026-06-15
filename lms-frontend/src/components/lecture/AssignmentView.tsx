@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { assignmentsApi, type Assignment } from '@/api/assignments';
+import { type Assignment } from '@/api/assignments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -120,7 +120,6 @@ export default function AssignmentView({ assignment }: Props) {
                     </div>
                 )}
 
-                {/* Кнопка сдачи (для студента без сдачи) */}
                 {!isTeacher && !submission && (
                     <>
                         {!showSubmit ? (

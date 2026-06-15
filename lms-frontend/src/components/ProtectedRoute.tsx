@@ -5,7 +5,6 @@ import { Loader2 } from 'lucide-react';
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { isAuthenticated, isInitialized } = useAuthStore();
 
-    // Ждём инициализации (проверки токена)
     if (!isInitialized) {
         return (
             <div className="flex h-screen items-center justify-center">

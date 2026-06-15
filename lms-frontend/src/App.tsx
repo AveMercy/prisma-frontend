@@ -49,7 +49,6 @@ export default function App() {
                 <BrowserRouter>
                     <AuthInitializer>
                         <Routes>
-                            {/* Public routes */}
                             <Route element={<PublicLayout />}>
                                 <Route path="/" element={<Landing />} />
                                 <Route path="/login" element={<Login />} />
@@ -65,7 +64,6 @@ export default function App() {
                                 }
                             />
 
-                            {/* Course page — свой лейаут */}
                             <Route
                                 path="/course/:courseId"
                                 element={
@@ -75,7 +73,6 @@ export default function App() {
                                 }
                             />
 
-                            {/* Protected routes with Dashboard Layout */}
                             <Route
                                 element={
                                     <ProtectedRoute>

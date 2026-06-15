@@ -5,7 +5,6 @@ import {
     LayoutTemplate, Terminal, Database, Cpu
 } from 'lucide-react';
 
-// Твоя структура контента Bento Grid
 const features = [
     {
         icon: Brain,
@@ -46,7 +45,6 @@ const stats = [
     { value: "0%", label: "Устаревшей теории" }
 ];
 
-// Анимации появления
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -57,11 +55,7 @@ const staggerContainer = {
     visible: { transition: { staggerChildren: 0.1 } }
 };
 
-// ========================================================
-// ПОДКОМПОНЕНТ КАРТОЧКИ С ИНТЕРАКТИВНЫМ СВЕЧЕНИЕМ ОБОДКА
-// ========================================================
 function FeatureCard({ feature }: { feature: typeof features[0] }) {
-    // Локальные координаты мыши внутри конкретной карточки
     const cardX = useMotionValue(0);
     const cardY = useMotionValue(0);
 
@@ -75,11 +69,8 @@ function FeatureCard({ feature }: { feature: typeof features[0] }) {
         <motion.div
             variants={fadeInUp}
             onMouseMove={handleMouseMove}
-            // p-[1px] создает рамку. bg-white/10 — дефолтный цвет ободка.
-            // При наведении маска-градиент внутри подсветит только область вокруг курсора.
             className={`${feature.colSpan} relative rounded-3xl p-[1px] bg-border/60 dark:bg-white/10 overflow-hidden group transition-all duration-300`}
         >
-            {/* Динамический прожектор под ободком */}
             <motion.div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                 style={{
@@ -94,7 +85,6 @@ function FeatureCard({ feature }: { feature: typeof features[0] }) {
                 }}
             />
 
-            {/* Внутреннее тело карточки с z-10 перекрывает прожектор, оставляя видимым только 1px ободка */}
             <div className="relative h-full w-full rounded-[23px] bg-card dark:bg-[#03060a]/98 p-8 backdrop-blur-md flex flex-col justify-between z-10">
                 <div className="h-12 w-12 rounded-2xl bg-muted dark:bg-zinc-950 border border-border/80 flex items-center justify-center mb-12 shadow-xs transition-colors group-hover:border-blue-500/30">
                     <feature.icon className="h-5 w-5 text-foreground transition-colors group-hover:text-cyan-400" />
@@ -108,22 +98,14 @@ function FeatureCard({ feature }: { feature: typeof features[0] }) {
     );
 }
 
-// ========================================================
-// ОСНОВНОЙ ЛЕНДИНГ
-// ========================================================
 export default function Landing() {
     const navigate = useNavigate();
 
     return (
-        // НАСТРОЙКА ГРАДИЕНТА (Твои 40% на 60% глубокого приглушенного сине-голубого уходящего в темносиний)
         <div className="relative overflow-hidden text-foreground min-h-screen selection:bg-blue-500/20 bg-background dark:bg-[linear-gradient(to_bottom,#021E33_0%,#010E1C_20vh,#020508_75vh,#020508_100%)]">
-
-            {/* ========== ЗАДНЯЯ ЖИВАЯ АНИМАЦИЯ И ЧАСТИЦЫ ========== */}
             <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-                {/* Сетка */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
-                {/* Медленно парящие нано-частицы (эффект живой среды) */}
                 {[...Array(12)].map((_, i) => (
                     <motion.div
                         key={i}
@@ -147,7 +129,6 @@ export default function Landing() {
                 ))}
             </div>
 
-            {/* ========== HERO SECTION ========== */}
             <section className="relative min-h-[90vh] flex items-center pt-1 pb-16">
                 <div className="container mx-auto px-4 max-w-7xl">
                     <motion.div
@@ -175,9 +156,7 @@ export default function Landing() {
                             </motion.p>
 
                             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                                {/* АНИМИРОВАННАЯ КНОПКА С СИЯНИЕМ */}
                                 <div className="relative group">
-                                    {/* Заднее размытое облако — теперь плавно вращается при наведении */}
                                     <motion.div
                                         className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 rounded-xl blur-md opacity-30 group-hover:opacity-60 transition-all duration-500"
                                         variants={{
@@ -187,7 +166,7 @@ export default function Landing() {
                                     />
 
                                     <motion.button
-                                        whileHover="hover" // Передаем состояние ховера дочерним элементам
+                                        whileHover="hover"
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => navigate('/register')}
                                         className="relative flex items-center gap-3 px-8 py-4 rounded-xl font-semibold bg-background dark:bg-[#070d14] text-foreground border border-blue-500/30 overflow-hidden transition-all duration-300"
@@ -250,7 +229,6 @@ export default function Landing() {
                 </div>
             </section>
 
-            {/* ========== СТРОКА СТАТИСТИКИ ========== */}
             <motion.section
                 className="py-12 border-y border-border/40 bg-muted/10 backdrop-blur-xs"
                 initial={{ opacity: 0 }}
@@ -268,7 +246,6 @@ export default function Landing() {
                 </div>
             </motion.section>
 
-            {/* ========== FEATURES (BENTO GRID С СЛЕДУЮЩИМ ЗА КУРСИРОМ СВЕЧЕНИЕМ ОБОДКА) ========== */}
             <section className="py-32 relative">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="mb-16 md:w-5/12">
@@ -290,7 +267,6 @@ export default function Landing() {
                 </div>
             </section>
 
-            {/* ========== COURSES SECTION ========== */}
             <section className="py-32 border-t border-border/20">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">

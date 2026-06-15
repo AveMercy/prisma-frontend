@@ -101,7 +101,6 @@ export default function CodePlaygroundPage() {
 
     return (
         <div className="min-h-screen bg-background text-foreground relative py-8 px-4 overflow-x-hidden">
-            {/* Неоновые сферы на фоне */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/5 blur-[120px]" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-500/5 blur-[120px]" />
@@ -190,7 +189,6 @@ export default function CodePlaygroundPage() {
                             <p className="text-sm text-muted-foreground leading-relaxed font-light">{selectedTask.description}</p>
                         </div>
 
-                        {/* Ключ key={selectedTask.id} ГАРАНТИРУЕТ сброс кода и панели ревью при переключении задач */}
                         <CodeEditor
                             key={selectedTask.id}
                             initialCode={selectedTask.starterCode}

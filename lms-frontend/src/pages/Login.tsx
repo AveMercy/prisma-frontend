@@ -28,14 +28,12 @@ export default function Login() {
 
     return (
         <div className="min-h-screen relative flex items-center justify-center px-4 py-12 bg-background overflow-hidden">
-            {/* Ambient background orbs from landing */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/5 blur-[120px]" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-500/5 blur-[120px]" />
             </div>
 
             <div className="w-full max-w-md relative">
-                {/* Top Brand Indicator */}
                 <div className="text-center mb-8">
 
                     <h1 className="text-3xl font-black tracking-tight mb-1">Вход в Prisma</h1>
@@ -44,13 +42,11 @@ export default function Login() {
                     </p>
                 </div>
 
-                {/* Glass Card Container */}
                 <div className="relative group">
                     <div className="absolute -inset-px bg-gradient-to-b from-white/10 to-transparent rounded-[2rem] pointer-events-none" />
                     <div className="bg-card/40 border border-border/50 backdrop-blur-2xl rounded-[2rem] p-8 sm:p-10 shadow-2xl overflow-hidden relative">
 
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            {/* Email Input */}
                             <div className="space-y-2">
                                 <label htmlFor="email" className="text-xs uppercase tracking-widest font-bold text-muted-foreground block pl-1">
                                     Email
@@ -66,7 +62,6 @@ export default function Login() {
                                 />
                             </div>
 
-                            {/* Password Input */}
                             <div className="space-y-2">
                                 <label htmlFor="password" className="text-xs uppercase tracking-widest font-bold text-muted-foreground block pl-1">
                                     Пароль
@@ -91,14 +86,12 @@ export default function Login() {
                                 </div>
                             </div>
 
-                            {/* Error Message */}
                             {error && (
                                 <p className="text-sm text-red-500 dark:text-red-400 pl-1 animate-in fade-in slide-in-from-top-1">
                                     {error}
                                 </p>
                             )}
 
-                            {/* Preserved Signature Glow Button Style */}
                             <div className="relative group/btn pt-2">
                                 <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 rounded-xl blur-sm opacity-50 group-hover/btn:opacity-100 transition duration-300" />
                                 <button
@@ -125,7 +118,6 @@ export default function Login() {
                             </div>
                         </form>
 
-                        {/* Bottom Redirect */}
                         <p className="mt-8 text-center text-sm text-muted-foreground font-light">
                             Нет аккаунта?{' '}
                             <Link to="/register" className="font-semibold text-foreground hover:text-blue-500 transition-colors underline underline-offset-4 decoration-border hover:decoration-blue-500">

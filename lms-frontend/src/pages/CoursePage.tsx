@@ -224,7 +224,6 @@ export default function CoursePage() {
                 {/* Приветственная страница курса */}
                 {showIntro && !selectedLectureId && (
                     <div className="max-w-4xl mx-auto px-8 py-12">
-                        {/* Хлебные крошки */}
                         <Link
                             to="/dashboard"
                             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8"
@@ -308,7 +307,6 @@ export default function CoursePage() {
                             </div>
                         )}
 
-                        {/* Кнопка «Начать» */}
                         <div className="flex justify-center">
                             <div className="relative group">
                                 <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 rounded-xl blur-md opacity-40 group-hover:opacity-75 transition duration-300" />

@@ -18,7 +18,6 @@ export default function LectureViewer({ content, className, lectureType }: Lectu
         return <QuizRenderer content={content} />;
     }
 
-    // Пробуем распарсить как JSON (новый формат)
     try {
         const parsed = JSON.parse(content);
         if (Array.isArray(parsed)) {
@@ -29,7 +28,6 @@ export default function LectureViewer({ content, className, lectureType }: Lectu
             );
         }
     } catch {
-        // Не JSON — рендерим как старый Markdown
     }
 
     return <LegacyMarkdownViewer content={content} className={className} />;

@@ -118,7 +118,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        {/* Режим обучения (только для студентов) */}
+                        {/* Режим обучения */}
                         {accountType === 'student' && (
                             <div className="space-y-2">
                                 <Label>Формат обучения</Label>

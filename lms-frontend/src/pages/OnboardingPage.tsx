@@ -77,7 +77,6 @@ export default function OnboardingPage() {
                     </p>
                 </div>
 
-                {/* Progress */}
                 <div className="mb-8">
                     <Progress value={((step + 1) / steps.length) * 100} className="h-1.5" />
                     <div className="flex justify-between mt-2 text-sm text-muted-foreground">
@@ -87,7 +86,6 @@ export default function OnboardingPage() {
                     </div>
                 </div>
 
-                {/* Step 1: Categories */}
                 {step === 0 && (
                     <div>
                         <h2 className="text-lg font-semibold mb-4">Какие направления вас интересуют?</h2>
@@ -125,7 +123,6 @@ export default function OnboardingPage() {
                     </div>
                 )}
 
-                {/* Step 2: Tags */}
                 {step === 1 && (
                     <div>
                         <h2 className="text-lg font-semibold mb-4">Какие технологии знаете или хотите изучить?</h2>
@@ -148,7 +145,6 @@ export default function OnboardingPage() {
                     </div>
                 )}
 
-                {/* Step 3: Level */}
                 {step === 2 && (
                     <div>
                         <h2 className="text-lg font-semibold mb-4">Ваш текущий уровень?</h2>
@@ -176,7 +172,6 @@ export default function OnboardingPage() {
                     </div>
                 )}
 
-                {/* Navigation */}
                 <div className="flex justify-between mt-8">
                     <Button variant="outline" onClick={() => setStep(s => s - 1)} disabled={step === 0}>
                         Назад

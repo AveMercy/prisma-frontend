@@ -92,7 +92,6 @@ export default function CodeEditor({
                                 Запустить
                             </Button>
 
-                            {/* Фирменная неоновая кнопка Prisma */}
                             <div className="relative group">
                                 <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 rounded-lg blur-sm opacity-40 group-hover:opacity-100 transition duration-300" />
                                 <Button
@@ -179,7 +178,7 @@ export default function CodeEditor({
                     </div>
                 )}
 
-                {/* Состояние: Загрузка ответа (Красивый скелетон с пульсацией) */}
+                {/* Состояние: Загрузка ответа */}
                 {reviewMutation.isPending && (
                     <div className="p-6 bg-card/20 backdrop-blur-2xl border border-blue-500/20 rounded-2xl h-full flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden animate-pulse">
                         <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent pointer-events-none" />
@@ -196,7 +195,7 @@ export default function CodeEditor({
                     </div>
                 )}
 
-                {/* Состояние: Сгенерированный красивый ответ от ИИ */}
+                {/* Состояние: Сгенерированный ответ от ИИ */}
                 {review && (
                     <div className="p-5 bg-card/30 border border-border/50 backdrop-blur-2xl rounded-2xl space-y-5 animate-in fade-in slide-in-from-right-6 duration-500 relative overflow-hidden h-full flex flex-col justify-between">
                         <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-blue-500/5 rounded-full blur-2xl pointer-events-none" />
@@ -258,7 +257,7 @@ export default function CodeEditor({
                             )}
                         </div>
 
-                        {/* Интерактивная контекстная Подсказка (если есть) */}
+                        {/* Интерактивная контекстная Подсказка */}
                         {review.hint && (
                             <div className="p-3.5 rounded-xl bg-gradient-to-r from-blue-500/5 to-cyan-500/5 border border-blue-500/10 mt-2">
                                 <div className="text-[10px] font-bold uppercase tracking-widest text-blue-400 mb-1.5 flex items-center gap-1.5">

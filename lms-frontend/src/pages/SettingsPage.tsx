@@ -35,7 +35,6 @@ export default function SettingsPage() {
         user?.settings?.achievement_notifications ?? true
     );
 
-// В handleToggle:
     const handleToggleAchievementNotifications = (checked: boolean) => {
         setAchievementNotifications(checked);
         settingsMutation.mutate({

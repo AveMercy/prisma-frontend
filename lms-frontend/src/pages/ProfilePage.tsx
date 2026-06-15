@@ -162,7 +162,6 @@ export default function ProfilePage() {
                     <TabsTrigger value="achievements"><Trophy className="h-4 w-4 mr-1" />Достижения</TabsTrigger>
                 </TabsList>
 
-                {/* ===== ПРОФИЛЬ ===== */}
                 <TabsContent value="profile">
                     <div className="space-y-6">
                         <Card>
@@ -230,7 +229,6 @@ export default function ProfilePage() {
                     </div>
                 </TabsContent>
 
-                {/* ===== GITHUB ===== */}
                 <TabsContent value="github">
                     <div className="space-y-6">
                         <Card>
@@ -290,7 +288,6 @@ export default function ProfilePage() {
                     </div>
                 </TabsContent>
 
-                {/* ===== ПАРОЛЬ ===== */}
                 <TabsContent value="password">
                     <Card>
                         <CardHeader><CardTitle>Смена пароля</CardTitle><CardDescription>Введите текущий и новый пароль</CardDescription></CardHeader>
@@ -309,7 +306,6 @@ export default function ProfilePage() {
                     </Card>
                 </TabsContent>
 
-                {/* ===== ДОСТИЖЕНИЯ ===== */}
                 <TabsContent value="achievements">
                     {achievementsLoading ? (
                         <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
