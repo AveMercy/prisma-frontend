@@ -2,7 +2,7 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/ThemeProvider';
 import { Sun, Moon, GraduationCap } from 'lucide-react';
-
+import Logo from '@/pages/Logo';
 export default function PublicLayout() {
     const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
@@ -14,8 +14,7 @@ export default function PublicLayout() {
                 <div className="container mx-auto flex h-16 items-center justify-between px-4">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-                        <GraduationCap className="h-8 w-8" />
-                        <span>CodeLearn</span>
+                        <Logo />
                     </Link>
 
                     {/* Navigation + Actions */}
@@ -41,7 +40,7 @@ export default function PublicLayout() {
             {/* Footer */}
             <footer className="border-t bg-muted/50">
                 <div className="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground">
-                    © 2026 CodeLearn. Все права защищены.
+                    © 2026 Prisma. Все права защищены.
                 </div>
             </footer>
         </div>

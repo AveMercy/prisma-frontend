@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { BookOpen, GraduationCap, Loader2, Search } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const levelLabels = {
     beginner: 'Начинающий',
@@ -51,6 +53,20 @@ export default function CatalogPage() {
             c.title.toLowerCase().includes(search.toLowerCase()) ||
             (c.description && c.description.toLowerCase().includes(search.toLowerCase()))
     );
+    const queryClient = useQueryClient();
+
+    const enrollMutation = useMutation({
+        mutationFn: (courseId: number) => coursesApi.enroll(courseId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['courses'] });
+            queryClient.invalidateQueries({ queryKey: ['myCourses'] });
+            toast.success('Вы записаны на курс!');
+        },
+        onError: (error: any) => {
+            const message = error?.response?.data?.error || 'Не удалось записаться';
+            toast.error(message);
+        },
+    });
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -152,14 +168,14 @@ export default function CatalogPage() {
                             </p>
 
                             <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <BookOpen className="h-3 w-3" />
-                    {course._count.modules} модулей
-                </span>
+        <span className="flex items-center gap-1">
+            <BookOpen className="h-3 w-3" />
+            {course._count.modules} модулей
+        </span>
                                 <span className="flex items-center gap-1">
-                  <GraduationCap className="h-3 w-3" />
+            <GraduationCap className="h-3 w-3" />
                                     {course.author.fullName}
-                </span>
+        </span>
                             </div>
 
                             {course.category && (
@@ -167,6 +183,34 @@ export default function CatalogPage() {
                                     {course.category.name}
                                 </Badge>
                             )}
+
+                            {/* Теги */}
+                            {course.tags && course.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                    {course.tags.slice(0, 3).map((tag) => (
+                                        <Badge key={tag.id} variant="secondary" className="text-xs">
+                                            {tag.name}
+                                        </Badge>
+                                    ))}
+                                    {course.tags.length > 3 && (
+                                        <Badge variant="outline" className="text-xs">
+                                            +{course.tags.length - 3}
+                                        </Badge>
+                                    )}
+                                </div>
+                            )}
+
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="mt-3 w-full"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    enrollMutation.mutate(course.id);
+                                }}
+                            >
+                                Записаться
+                            </Button>
                         </CardContent>
                     </Card>
                 ))}
