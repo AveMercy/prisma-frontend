@@ -41,7 +41,7 @@ const courses = [
 const stats = [
     { value: "50+", label: "Доступных курсов" },
     { value: "100+", label: "Практических задач" },
-    { value: "YandexGPT", label: "Ядро ИИ-наставника" },
+    { value: "GigaChat", label: "Ядро ИИ-наставника" },
     { value: "0%", label: "Устаревшей теории" }
 ];
 
